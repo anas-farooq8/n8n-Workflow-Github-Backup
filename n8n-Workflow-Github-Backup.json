@@ -231,6 +231,264 @@
         ],
         "id": "ca083a23-d014-4623-8375-a58ed5cc4a08",
         "name": "C,E,D Checker"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "={{ $json.path }}",
+          "fileContent": "={{ JSON.stringify($json.data, null, 2) }}",
+          "commitMessage": "={{ $json.name }} (Created) {{ new Date().toISOString().split('T')[0] }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          2576,
+          -608
+        ],
+        "id": "2ed6483e-158f-4865-aa19-8d9a6a9ad9a1",
+        "name": "Create New Files",
+        "webhookId": "b1c00612-30d6-402d-a737-b9d06e473053",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "edit",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "index.json",
+          "fileContent": "={{ JSON.stringify($json.data, null, 2) }}",
+          "commitMessage": "=Index (Edited) {{ new Date().toISOString().split('T')[0] }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          2576,
+          -48
+        ],
+        "id": "61fedd05-149c-4257-9de2-5cc784009ade",
+        "name": "Update Index File",
+        "webhookId": "0cfd3844-d625-413e-9760-c352d50d4c79",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "get",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "={{ $json.path }}",
+          "asBinaryProperty": false,
+          "additionalParameters": {}
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          2576,
+          -448
+        ],
+        "id": "0df1da12-7855-43c5-a039-7f9ec057ca4f",
+        "name": "Get Download Url for Github File",
+        "webhookId": "6e7d3020-5558-4a80-9647-3c5a9de59a29",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.status }}",
+                      "rightValue": "create",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "97023852-faa0-4c13-91fc-7d080beae826"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Create"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "ae9ec2ae-f5d7-47be-85a5-7c13cf4b6688",
+                      "leftValue": "={{ $json.status }}",
+                      "rightValue": "edit",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Edit"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "8f1e5618-6223-4ad3-afc8-b8e8d74b8f05",
+                      "leftValue": "={{ $json.status }}",
+                      "rightValue": "delete",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Delete"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "b548ed0b-878d-45da-80c7-28347fa3d555",
+                      "leftValue": "={{ $json.status }}",
+                      "rightValue": "index",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Update Index"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          2256,
+          -368
+        ],
+        "id": "3b665fc8-6273-4223-ab7a-b1ab1cb524f8",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "delete",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "={{ $json.path }}",
+          "commitMessage": "={{ $json.name }} (Deleted) {{ new Date().toISOString().split('T')[0] }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          2576,
+          -224
+        ],
+        "id": "4ca08961-1c75-4d40-8f85-203ef0e5ce1c",
+        "name": "Delete Files",
+        "webhookId": "b1c00612-30d6-402d-a737-b9d06e473053",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        }
       }
     ],
     "connections": {
@@ -334,6 +592,49 @@
           [
             {
               "node": "C,E,D Checker",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "C,E,D Checker": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Create New Files",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get Download Url for Github File",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Delete Files",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update Index File",
               "type": "main",
               "index": 0
             }

@@ -4,7 +4,7 @@
 
 ![n8n](https://img.shields.io/badge/n8n-Workflow-EA4B71?logo=n8n)
 ![GitHub](https://img.shields.io/badge/GitHub-API-181717?logo=github)
-![OAuth2](https://img.shields.io/badge/OAuth2-Authentication-2088FF?logo=oauth)
+![OAuth2](https://img.shields.io/badge/OAuth2-Authentication-2088FF)
 
 This workflow automatically detects new, edited, renamed, and deleted workflows in your n8n instance, then syncs them to a GitHub repository with smart commit messages and an index tracking system.
 

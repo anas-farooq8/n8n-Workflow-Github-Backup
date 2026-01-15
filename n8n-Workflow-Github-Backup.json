@@ -197,7 +197,6 @@
       {
         "parameters": {
           "filters": {
-            "tags": "rsss",
             "excludePinnedData": true
           },
           "requestOptions": {}

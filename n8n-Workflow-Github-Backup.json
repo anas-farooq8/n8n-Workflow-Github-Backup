@@ -2,6 +2,112 @@
     "nodes": [
       {
         "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').item.json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').item.json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "=index.json",
+          "fileContent": "{}",
+          "commitMessage": "=Index (Created) {{ new Date().toISOString().split('T')[0] }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          1536,
+          0
+        ],
+        "id": "56a28de8-26b3-4a6f-b7bb-e4ded4c87b27",
+        "name": "Create Index File",
+        "webhookId": "b1c00612-30d6-402d-a737-b9d06e473053",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "get",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "index.json",
+          "asBinaryProperty": false,
+          "additionalParameters": {}
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          1088,
+          -160
+        ],
+        "id": "77e4eeee-a368-4cd4-9558-1217c2e6c8cb",
+        "name": "Get Download Url for Index File",
+        "webhookId": "6e7d3020-5558-4a80-9647-3c5a9de59a29",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "3e028766-cfb2-4464-9a97-b0845f082ed4",
+                "leftValue": "={{ $json.error }}",
+                "rightValue": "=The resource you are requesting could not be found",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1312,
+          16
+        ],
+        "id": "bb491e5d-ae6f-4769-8a60-30286d71a04f",
+        "name": "Index File Not Found"
+      },
+      {
+        "parameters": {
           "rule": {
             "interval": [
               {
@@ -10,12 +116,12 @@
             ]
           }
         },
-        "id": "36aa9a9a-9fd4-4c97-bead-d8ac8c2dcf52",
+        "id": "c3adf279-f6a9-4a20-a286-33a4692d8d77",
         "name": "Schedule Trigger",
         "type": "n8n-nodes-base.scheduleTrigger",
         "position": [
-          0,
-          224
+          672,
+          -32
         ],
         "typeVersion": 1.2
       },
@@ -42,10 +148,10 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          208,
-          96
+          880,
+          -160
         ],
-        "id": "f82def0f-f58c-4a0b-ae88-108003645bdd",
+        "id": "166fb35f-477b-4b0f-bea0-90c9de5bcf80",
         "name": "Set Github Data"
       },
       {
@@ -53,19 +159,53 @@
         "type": "n8n-nodes-base.manualTrigger",
         "typeVersion": 1,
         "position": [
-          0,
-          0
+          672,
+          -256
         ],
-        "id": "267022fb-c716-4753-b21a-15f8d2f3d236",
+        "id": "e3592844-4403-45ea-8ed9-9f966dd96be3",
         "name": "When clicking ‘Execute workflow’"
       }
     ],
     "connections": {
+      "Get Download Url for Index File": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Index File Not Found",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Index File Not Found": {
+        "main": [
+          [
+            {
+              "node": "Create Index File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
       "Schedule Trigger": {
         "main": [
           [
             {
               "node": "Set Github Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Github Data": {
+        "main": [
+          [
+            {
+              "node": "Get Download Url for Index File",
               "type": "main",
               "index": 0
             }

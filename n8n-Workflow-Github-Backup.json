@@ -14,7 +14,7 @@
         "name": "Schedule Trigger",
         "type": "n8n-nodes-base.scheduleTrigger",
         "position": [
-          992,
+          1296,
           -192
         ],
         "typeVersion": 1.2
@@ -40,7 +40,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          1840,
+          2144,
           -160
         ],
         "id": "6683f526-0831-457c-9b3d-9149b6aa72c4",
@@ -76,7 +76,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          1392,
+          1696,
           -320
         ],
         "id": "ef2313ca-a8d4-4518-bd7e-72500c90a6bc",
@@ -100,7 +100,7 @@
         "name": "Get Index File Content",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          1616,
+          1920,
           -336
         ],
         "typeVersion": 4.2,
@@ -134,7 +134,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.2,
         "position": [
-          1616,
+          1920,
           -144
         ],
         "id": "b4d05bc7-36de-4cf3-9ff0-dac7faff26a2",
@@ -163,7 +163,7 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          1200,
+          1504,
           -320
         ],
         "id": "f5544061-062b-4a5a-b98b-f8c274e78104",
@@ -174,7 +174,7 @@
         "type": "n8n-nodes-base.manualTrigger",
         "typeVersion": 1,
         "position": [
-          992,
+          1296,
           -416
         ],
         "id": "dfd491c1-6c20-4c99-801a-867d5b1e6376",
@@ -187,7 +187,7 @@
         "type": "n8n-nodes-base.wait",
         "typeVersion": 1.1,
         "position": [
-          2048,
+          2352,
           -160
         ],
         "id": "fb17c3b6-5501-4f1f-bd78-10b39d3cc135",
@@ -205,7 +205,7 @@
         "name": "Get All Workflows",
         "type": "n8n-nodes-base.n8n",
         "position": [
-          1824,
+          2128,
           -336
         ],
         "typeVersion": 1,
@@ -226,7 +226,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          2048,
+          2352,
           -336
         ],
         "id": "ca083a23-d014-4623-8375-a58ed5cc4a08",
@@ -253,7 +253,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          2576,
+          2880,
           -608
         ],
         "id": "2ed6483e-158f-4865-aa19-8d9a6a9ad9a1",
@@ -289,7 +289,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          2576,
+          2880,
           -48
         ],
         "id": "61fedd05-149c-4257-9de2-5cc784009ade",
@@ -325,7 +325,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          2576,
+          2880,
           -448
         ],
         "id": "0df1da12-7855-43c5-a039-7f9ec057ca4f",
@@ -449,7 +449,7 @@
         "type": "n8n-nodes-base.switch",
         "typeVersion": 3.3,
         "position": [
-          2256,
+          2560,
           -368
         ],
         "id": "3b665fc8-6273-4223-ab7a-b1ab1cb524f8",
@@ -476,7 +476,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          2576,
+          2880,
           -224
         ],
         "id": "4ca08961-1c75-4d40-8f85-203ef0e5ce1c",
@@ -499,7 +499,7 @@
         "name": "Get Github File Content",
         "type": "n8n-nodes-base.httpRequest",
         "position": [
-          2832,
+          3136,
           -448
         ],
         "typeVersion": 4.2
@@ -511,7 +511,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          3056,
+          3360,
           -448
         ],
         "id": "a8b185c6-dd27-407a-8156-8fd3b10bbb65",
@@ -524,7 +524,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          3504,
+          3808,
           -432
         ],
         "id": "a54da607-6234-4661-960e-1954b72d28a9",
@@ -541,7 +541,7 @@
         "type": "n8n-nodes-base.merge",
         "typeVersion": 3.2,
         "position": [
-          3280,
+          3584,
           -432
         ],
         "id": "a830aab5-48fe-4e9f-a836-6a70dce2d625",
@@ -575,7 +575,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.2,
         "position": [
-          3728,
+          4032,
           -432
         ],
         "id": "623fafcc-e4c7-4643-bfde-6b618cb39bd7",
@@ -603,7 +603,7 @@
         "type": "n8n-nodes-base.github",
         "typeVersion": 1.1,
         "position": [
-          3952,
+          4256,
           -448
         ],
         "id": "00098dfc-2bc6-4492-9562-8122a536954f",
@@ -616,6 +616,150 @@
             "name": "GitHub account"
           }
         }
+      },
+      {
+        "parameters": {
+          "content": "# n8n-Workflow-Github-Backup",
+          "height": 1443,
+          "width": 3590,
+          "color": 7
+        },
+        "id": "23b09a8a-983f-477f-be9a-96fe59dca49f",
+        "name": "Sticky Note2",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          864,
+          -896
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## 📋 WORKFLOW SUMMARY\n\n**Purpose:** Automatically backup n8n workflows to GitHub\n\n**Flow:**\n1. Trigger (Schedule/Manual)\n2. Get/Create index.json in GitHub\n3. Fetch all n8n workflows\n4. Compare with GitHub index\n5. Create/Edit/Delete files as needed\n6. Update index.json\n\n\n**Features:**\n- Daily automatic backups (7 PM) UTC\n- Detects new, edited, renamed, and deleted workflows\n- Maintains an index for tracking\n- Smart comparison to avoid unnecessary commits",
+          "height": 416,
+          "width": 512,
+          "color": 2
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          320,
+          -48
+        ],
+        "id": "81fe00c0-4469-4f57-a8e7-441b5619b754",
+        "name": "Workflow Summary"
+      },
+      {
+        "parameters": {
+          "content": "## ⚙️ SETUP REQUIREMENTS\n\n**1️⃣ GitHub OAuth Credentials**\n- Go to *Credentials → New → GitHub OAuth2*\n- Create GitHub OAuth App:\n  - Settings → Developer settings → OAuth Apps\n  - Authorization callback URL: your n8n instance\n  - Enter Client ID & Secret in n8n\n\n\n**2️⃣ GitHub Repository**\n- Create a new repository (public/private)\n- Copy repository owner and name\n\n\n**3️⃣ Configure Workflow**\n- Edit \"Set Github Data\" node:\n  - `repo_owner`: your GitHub username\n  - `repo_name`: your repository name\n- Connect GitHub OAuth credentials to all GitHub nodes\n\n\n**4️⃣ n8n API Credentials**\n- Go to *Settings → API*\n- Create new API key\n- Add as n8n credential in workflow\n\n✅ Test manually before enabling schedule",
+          "height": 608,
+          "width": 500,
+          "color": 4
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          320,
+          -720
+        ],
+        "id": "8d64b719-713f-4f0c-9054-55707357fab2",
+        "name": "Setup Requirements"
+      },
+      {
+        "parameters": {
+          "content": "## 🚀 TRIGGERS\n\n**Schedule Trigger:**\n- Runs daily at 7 PM (19:00)\n- Automated backup\n\n**Manual Trigger:**\n- Click \"Execute workflow\" to run immediately\n- Useful for testing or on-demand backups\n\nBoth triggers start the same workflow process.",
+          "height": 312,
+          "width": 332,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          896,
+          -400
+        ],
+        "id": "b09f6a47-1f1d-4315-9dbe-1b4139864075",
+        "name": "Triggers Info"
+      },
+      {
+        "parameters": {
+          "content": "## 📂 INDEX SYSTEM\n\n**index.json structure:**\n```json\n{\n  \"workflow_id_1\": {\n    \"name\": \"Workflow Name\",\n    \"file_path\": \"workflows/Workflow Name.json\"\n  },\n  \"workflow_id_2\": { ... }\n}\n```\n\n**Purpose:**\n- Tracks which workflows exist in GitHub\n- Maps workflow IDs to file paths\n- Enables detection of renames and deletes\n\n**First Run:**\n- If index.json doesn't exist, it's created automatically\n- 3-second wait allows file creation to complete",
+          "height": 472,
+          "width": 420,
+          "color": 5
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          1968,
+          48
+        ],
+        "id": "3fd029b9-9573-4f10-b464-333728f5791a",
+        "name": "Index System"
+      },
+      {
+        "parameters": {
+          "content": "## 🔍 C,E,D CHECKER\n\n**Compare & Decision Logic:**\n\nFor each n8n workflow:\n- **CREATE:** New workflow not in index\n- **RENAME:** Workflow name changed\n  - Deletes old file\n  - Creates new file with new name\n- **EDIT:** Existing workflow (checked later for actual changes)\n\n\nFor workflows in index but not in n8n:\n- **DELETE:** Workflow removed from n8n\n\n\nFor index itself:\n- **UPDATE INDEX:** If any changes detected\n\n**Output:** Array of actions to take",
+          "height": 456,
+          "width": 400,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          2144,
+          -832
+        ],
+        "id": "9ab1adc8-5de8-4eba-9128-aed991abae8c",
+        "name": "C,E,D Checker Logic"
+      },
+      {
+        "parameters": {
+          "content": "## 🔀 SWITCH ROUTING\n\nRoutes items based on status:\n\n**Create Branch:**\n- New workflows → Create New Files\n\n\n**Edit Branch:**\n- Existing workflows → Smart edit check\n- Fetches GitHub version\n- Compares with n8n version\n- Only commits if actually different\n\n\n**Delete Branch:**\n- Removed workflows → Delete Files\n\n\n**Update Index Branch:**\n- Index changed → Update Index File\n\n\nEach branch processes independently.",
+          "height": 496,
+          "width": 360,
+          "color": 7
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          32
+        ],
+        "id": "3e687dee-c761-4cfc-b7b0-301e414a0cf8",
+        "name": "Switch Routing"
+      },
+      {
+        "parameters": {
+          "content": "## ✏️ SMART EDIT DETECTION\n\n**Why needed:**\n- n8n changes timestamps/metadata on save\n- Prevents unnecessary commits\n\n\n**Process:**\n1. Fetch current file from GitHub\n2. Parse both GitHub & n8n versions\n3. Normalize JSON (sort keys)\n4. Compare stringified versions\n5. Only commit if truly different\n\n\n**Benefits:**\n- Cleaner commit history\n- No spam commits\n- Saves GitHub API calls",
+          "height": 428,
+          "width": 380,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          3792,
+          -272
+        ],
+        "id": "fc8aa3ca-ab5b-463a-ba87-40a10e7486e1",
+        "name": "Smart Edit Detection"
+      },
+      {
+        "parameters": {
+          "content": "## 📝 COMMIT MESSAGES\n\nAuto-generated commit messages:\n\n**Format:** `[Workflow Name] ([Action]) YYYY-MM-DD`\n\n**Examples:**\n- `My Workflow (Created) 2026-01-15`\n- `My Workflow (Edited) 2026-01-15`\n- `My Workflow (Deleted) 2026-01-15`\n- `Index (Edited) 2026-01-15`\n\n\n**Benefits:**\n- Clear action history\n- Easy to track changes\n- Searchable by date",
+          "height": 404,
+          "width": 360,
+          "color": 3
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          3168,
+          -224
+        ],
+        "id": "52fef552-2ada-4451-8909-08dcc301a6d2",
+        "name": "Commit Messages"
       }
     ],
     "connections": {

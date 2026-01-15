@@ -197,7 +197,7 @@
       {
         "parameters": {
           "filters": {
-            "tags": "rss",
+            "tags": "rsss",
             "excludePinnedData": true
           },
           "requestOptions": {}
@@ -212,6 +212,7 @@
         "typeVersion": 1,
         "executeOnce": false,
         "retryOnFail": true,
+        "alwaysOutputData": true,
         "credentials": {
           "n8nApi": {
             "id": "K60r3zn5x560PMdo",
@@ -221,7 +222,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// =======================\n// READ INPUTS\n// =======================\n\n// Current workflows from n8n\nconst workflows = $input.all().map(i => i.json);\n\nconst indexData = JSON.parse($('Get Index File Content').first()?.json?.data || '{}');\n\n// =======================\n// PREPARE STATE\n// =======================\n\nconst results = [];\nconst updatedIndex = { ...indexData };\n\n// Track only REAL workflow IDs from index\nconst existingIds = new Set(Object.keys(indexData));\n\n// =======================\n// STEP 1: CREATE / EDIT / RENAME\n// =======================\n\nfor (const workflow of workflows) {\n  const id = workflow.id;\n  const name = workflow.name || 'unnamed';\n  const path = `workflows/${name}.json`;\n\n  // -------- CREATE --------\n  if (!indexData[id]) {\n    updatedIndex[id] = { name, file_path: path };\n\n    results.push({\n      status: 'create',\n      workflowId: id,\n      name,\n      path,\n      data: workflow\n    });\n\n    continue;\n  }\n\n  // -------- RENAME --------\n  if (indexData[id].name !== name) {\n    // delete old file\n    results.push({\n      status: 'delete',\n      workflowId: id,\n      name: indexData[id].name,\n      path: indexData[id].file_path\n    });\n\n    // create new file\n    results.push({\n      status: 'create',\n      workflowId: id,\n      name,\n      path,\n      data: workflow\n    });\n\n    updatedIndex[id] = { name, file_path: path };\n    existingIds.delete(id);\n    continue;\n  }\n\n  // -------- EDIT --------\n  results.push({\n    status: 'edit',\n    workflowId: id,\n    name,\n    path: indexData[id].file_path,\n    data: workflow\n  });\n\n  existingIds.delete(id);\n}\n\n// =======================\n// STEP 2: DELETE REMOVED WORKFLOWS\n// =======================\n\nfor (const id of existingIds) {\n  results.push({\n    status: 'delete',\n    workflowId: id,\n    name: indexData[id].name,\n    path: indexData[id].file_path\n  });\n\n  delete updatedIndex[id];\n}\n\n// =======================\n// STEP 3: INDEX UPDATE (ONLY IF CHANGED)\n// =======================\n\nif (JSON.stringify(indexData) !== JSON.stringify(updatedIndex)) {\n  results.push({\n    status: 'index',\n    data: updatedIndex\n  });\n}\n\n// =======================\n// OUTPUT FOR N8N\n// =======================\n\nreturn results.map(r => ({ json: r }));"
+          "jsCode": "// =======================\n// READ INPUTS\n// =======================\n\n// Current workflows from n8n\nconst workflows = $input.all()\n  .map(i => i.json)\n  .filter(w => w && typeof w.id === 'string' && typeof w.name === 'string');\n\nconst indexData = JSON.parse($('Get Index File Content').first()?.json?.data || '{}');\n\n// =======================\n// PREPARE STATE\n// =======================\n\nconst results = [];\nconst updatedIndex = { ...indexData };\n\n// Track only REAL workflow IDs from index\nconst existingIds = new Set(Object.keys(indexData));\n\n// =======================\n// STEP 1: CREATE / EDIT / RENAME\n// =======================\n\nfor (const workflow of workflows) {\n  const id = workflow.id;\n  const name = workflow.name || 'unnamed';\n  const path = `workflows/${name}.json`;\n\n  // -------- CREATE --------\n  if (!indexData[id]) {\n    updatedIndex[id] = { name, file_path: path };\n\n    results.push({\n      status: 'create',\n      workflowId: id,\n      name,\n      path,\n      data: workflow\n    });\n\n    continue;\n  }\n\n  // -------- RENAME --------\n  if (indexData[id].name !== name) {\n    // delete old file\n    results.push({\n      status: 'delete',\n      workflowId: id,\n      name: indexData[id].name,\n      path: indexData[id].file_path\n    });\n\n    // create new file\n    results.push({\n      status: 'create',\n      workflowId: id,\n      name,\n      path,\n      data: workflow\n    });\n\n    updatedIndex[id] = { name, file_path: path };\n    existingIds.delete(id);\n    continue;\n  }\n\n  // -------- EDIT --------\n  results.push({\n    status: 'edit',\n    workflowId: id,\n    name,\n    path: indexData[id].file_path,\n    data: workflow\n  });\n\n  existingIds.delete(id);\n}\n\n// =======================\n// STEP 2: DELETE REMOVED WORKFLOWS\n// =======================\n\nfor (const id of existingIds) {\n  results.push({\n    status: 'delete',\n    workflowId: id,\n    name: indexData[id].name,\n    path: indexData[id].file_path\n  });\n\n  delete updatedIndex[id];\n}\n\n// =======================\n// STEP 3: INDEX UPDATE (ONLY IF CHANGED)\n// =======================\n\nif (JSON.stringify(indexData) !== JSON.stringify(updatedIndex)) {\n  results.push({\n    status: 'index',\n    data: updatedIndex\n  });\n}\n\n// =======================\n// OUTPUT FOR N8N\n// =======================\n\nreturn results.map(r => ({ json: r }));"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -489,6 +490,133 @@
             "name": "GitHub account"
           }
         }
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.download_url }}",
+          "options": {}
+        },
+        "id": "d9be1383-2cbe-467d-95b6-5193fd01080e",
+        "name": "Get Github File Content",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          2832,
+          -448
+        ],
+        "typeVersion": 4.2
+      },
+      {
+        "parameters": {
+          "jsCode": "return $input.all().map(i => ({\n  json: {\n    githubData: JSON.parse(i.json.data || '{}')\n  }\n}));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3056,
+          -448
+        ],
+        "id": "a8b185c6-dd27-407a-8156-8fd3b10bbb65",
+        "name": "Parse Github File Content"
+      },
+      {
+        "parameters": {
+          "jsCode": "const normalize = (obj) =>\n  JSON.stringify(obj, (_, value) =>\n    value && typeof value === 'object' && !Array.isArray(value)\n      ? Object.keys(value)\n          .sort()\n          .reduce((o, k) => {\n            o[k] = value[k];\n            return o;\n          }, {})\n      : value\n  );\n\nreturn $input.all()\n  .filter(item =>\n    normalize(item.json.githubData) !== normalize(item.json.data)\n  )\n  .map(item => {\n    const { githubData, ...rest } = item.json;\n    return { json: rest };\n  });"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3504,
+          -432
+        ],
+        "id": "a54da607-6234-4661-960e-1954b72d28a9",
+        "name": "File Edit Checker",
+        "executeOnce": false,
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          3280,
+          -432
+        ],
+        "id": "a830aab5-48fe-4e9f-a836-6a70dce2d625",
+        "name": "Merge Github & n8n File"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "7f597ed3-ce0c-4830-97b8-3a07e9dda11f",
+                "leftValue": "={{ $json.status !== null && $json.status !== undefined }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          3728,
+          -432
+        ],
+        "id": "623fafcc-e4c7-4643-bfde-6b618cb39bd7",
+        "name": "If File Edited"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "edit",
+          "owner": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_owner }}",
+            "mode": "name"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "={{ $('Set Github Data').first().json.repo_name }}",
+            "mode": "name"
+          },
+          "filePath": "={{ $json.path }}",
+          "fileContent": "={{ JSON.stringify($json.data, null, 2) }}",
+          "commitMessage": "={{ $json.name }} (Edited) {{ new Date().toISOString().split('T')[0] }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          3952,
+          -448
+        ],
+        "id": "00098dfc-2bc6-4492-9562-8122a536954f",
+        "name": "Edit Files",
+        "webhookId": "0cfd3844-d625-413e-9760-c352d50d4c79",
+        "retryOnFail": true,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "UBHtZxEV1OPvxU9F",
+            "name": "GitHub account"
+          }
+        }
       }
     ],
     "connections": {
@@ -609,6 +737,17 @@
           ]
         ]
       },
+      "Get Download Url for Github File": {
+        "main": [
+          [
+            {
+              "node": "Get Github File Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
       "Switch": {
         "main": [
           [
@@ -623,6 +762,11 @@
               "node": "Get Download Url for Github File",
               "type": "main",
               "index": 0
+            },
+            {
+              "node": "Merge Github & n8n File",
+              "type": "main",
+              "index": 1
             }
           ],
           [
@@ -635,6 +779,61 @@
           [
             {
               "node": "Update Index File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Github File Content": {
+        "main": [
+          [
+            {
+              "node": "Parse Github File Content",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Github File Content": {
+        "main": [
+          [
+            {
+              "node": "Merge Github & n8n File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "File Edit Checker": {
+        "main": [
+          [
+            {
+              "node": "If File Edited",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge Github & n8n File": {
+        "main": [
+          [
+            {
+              "node": "File Edit Checker",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If File Edited": {
+        "main": [
+          [
+            {
+              "node": "Edit Files",
               "type": "main",
               "index": 0
             }
